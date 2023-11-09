@@ -8,7 +8,7 @@ export default function App({ Component, pageProps }) {
     <>
       <style jsx global>{`
         html {
-          font-family: $(IBMPlexSans.style.fontFamily;);
+          font-family: ${IBMPlexSans.style.fontFamily};
         }
       `}</style>
       <Component {...pageProps} />
