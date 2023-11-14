@@ -50,7 +50,7 @@ export default function Home(props) {
                     key={eateryStore.fsq_id}
                     name={eateryStore.name}
                     // image={eateryStore.icon.prefix + eateryStore.icon.suffix}
-                    href={`/eatery-stores/${eateryStore.id}`}
+                    href={`/eatery-stores/${eateryStore.fsq_id}`}
                     className={styles.card}
                   />
                 );

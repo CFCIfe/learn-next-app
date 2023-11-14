@@ -1,26 +1,28 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import eateriesStoresData from "../../data/eatery-stores.json";
+import { fetchEateryStores } from "@/lib/eatery-stores";
 import Head from "next/head";
 import styles from "@/styles/eatery-stores.module.css";
 import Image from "next/image";
 import classNames from "classnames";
 
-export function getStaticProps(staticProps) {
+export async function getStaticProps(staticProps) {
   const params = staticProps.params;
+  const eateryStores = await fetchEateryStores();
   return {
     props: {
-      eateriesStore: eateriesStoresData.find((eateriesStore) => {
-        return eateriesStore.id.toString() === params.id;
+      eateriesStore: eateryStores.find((eateriesStore) => {
+        return eateriesStore.fsq_id.toString() === params.id;
       }),
     },
   };
 }
 
-export function getStaticPaths() {
-  const paths = eateriesStoresData.map((eateriesStore) => {
+export async function getStaticPaths() {
+  const eateryStores = await fetchEateryStores();
+  const paths = eateryStores.map((eateriesStore) => {
     return {
-      params: { id: eateriesStore.id.toString() },
+      params: { id: eateriesStore.fsq_id.toString() },
     };
   });
   return {
@@ -40,7 +42,7 @@ const EateryStore = (props) => {
     console.log("Upvote button clicked");
   };
 
-  const { address, name, neighbourhood, imgUrl } = props.eateriesStore;
+  const { location, name, neighbourhood, imgUrl } = props.eateriesStore;
 
   return (
     <div className={styles.layout}>
@@ -73,7 +75,7 @@ const EateryStore = (props) => {
               height="24"
               alt="Icons"
             />
-            <p className={styles.text}>{address}</p>
+            <p className={styles.text}>{location.formatted_address}</p>
           </div>
           <div className={styles.iconWrapper}>
             <Image
@@ -82,7 +84,7 @@ const EateryStore = (props) => {
               height="24"
               alt="Icons"
             />
-            <p className={styles.text}>{neighbourhood}</p>
+            <p className={styles.text}>{location.cross_street}</p>
           </div>
           <div className={styles.iconWrapper}>
             <Image
