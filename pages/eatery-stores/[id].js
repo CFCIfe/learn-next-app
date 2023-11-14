@@ -42,7 +42,7 @@ const EateryStore = (props) => {
     console.log("Upvote button clicked");
   };
 
-  const { location, name, neighbourhood, imgUrl } = props.eateriesStore;
+  const { location, name, imgUrl } = props.eateriesStore;
 
   return (
     <div className={styles.layout}>
@@ -77,15 +77,17 @@ const EateryStore = (props) => {
             />
             <p className={styles.text}>{location.formatted_address}</p>
           </div>
-          <div className={styles.iconWrapper}>
-            <Image
-              src="/static/icons/nearMe.svg"
-              width="24"
-              height="24"
-              alt="Icons"
-            />
-            <p className={styles.text}>{location.cross_street}</p>
-          </div>
+          {location.cross_street && (
+            <div className={styles.iconWrapper}>
+              <Image
+                src="/static/icons/nearMe.svg"
+                width="24"
+                height="24"
+                alt="Icons"
+              />
+              <p className={styles.text}>{location.cross_street}</p>
+            </div>
+          )}
           <div className={styles.iconWrapper}>
             <Image
               src="/static/icons/stars.svg"

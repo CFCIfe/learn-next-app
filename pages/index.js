@@ -49,7 +49,7 @@ export default function Home(props) {
                   <Card
                     key={eateryStore.fsq_id}
                     name={eateryStore.name}
-                    // image={eateryStore.icon.prefix + eateryStore.icon.suffix}
+                    image={eateryStore.imgUrl}
                     href={`/eatery-stores/${eateryStore.fsq_id}`}
                     className={styles.card}
                   />

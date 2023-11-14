@@ -1,26 +1,68 @@
+// results
 [
-  {
-    "id": 0,
-    "name": "StrangeLove Coffee",
-    "imgUrl": "https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80",
-    "websiteUrl": "https://www.strangelovecoffee.ca/",
-    "address": "983 Queen St E, Toronto, ON M4M 1K2",
-    "neighbourhood": "at King and Spadina"
-  },
-  {
-    "id": 1,
-    "name": "Dark Horse Coffee",
-    "imgUrl": "https://images.unsplash.com/photo-1498804103079-a6351b050096?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2468&q=80",
-    "websiteUrl": "https://www.darkhorseespresso.com/",
-    "address": "401 Richmond St W",
-    "neighbourhood": "Richmond and Spadina"
-  },
-  {
-    "id": 300,
-    "name": "Route 300",
-    "imgUrl": "https://images.unsplash.com/photo-1498804103079-a6351b050096?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2468&q=80",
-    "websiteUrl": "https://www.darkhorseespresso.com/",
-    "address": "401 Richmond St W",
-    "neighbourhood": "Route 300 Neighbourhood"
-  }
-]
+    {
+      fsq_id: '4f78ae22e4b0f52dba4a8b5a',
+      categories: [Array],
+      chains: [],
+      closed_bucket: 'VeryLikelyOpen',
+      distance: 2059,
+      geocodes: [Object],
+      link: '/v3/places/4f78ae22e4b0f52dba4a8b5a',
+      location: [Object],
+      name: 'Yellow Chilli',
+      related_places: {},
+      timezone: 'Africa/Lagos'
+    },
+    {
+      fsq_id: '4f75a8e7e4b06c81e0e3ba05',
+      categories: [Array],
+      chains: [],
+      closed_bucket: 'VeryLikelyOpen',
+      distance: 2533,
+      geocodes: [Object],
+      link: '/v3/places/4f75a8e7e4b06c81e0e3ba05',
+      location: [Object],
+      name: 'Wings Restaurant',
+      related_places: [Object],
+      timezone: 'Africa/Lagos'
+    },
+    {
+      fsq_id: '4cbb0b289552b60c6994dd8b',
+      categories: [Array],
+      chains: [],
+      closed_bucket: 'VeryLikelyOpen',
+      distance: 2490,
+      geocodes: [Object],
+      link: '/v3/places/4cbb0b289552b60c6994dd8b',
+      location: [Object],
+      name: 'Zen Garden Chinese Resturant',
+      related_places: {},
+      timezone: 'Africa/Lagos'
+    },
+    {
+      fsq_id: '501c1b8fe4b0e20d8f7c6d62',
+      categories: [Array],
+      chains: [],
+      closed_bucket: 'VeryLikelyOpen',
+      distance: 3103,
+      geocodes: [Object],
+      link: '/v3/places/501c1b8fe4b0e20d8f7c6d62',
+      location: [Object],
+      name: 'Chicken Republic',
+      related_places: [Object],
+      timezone: 'Africa/Lagos'
+    },
+    {
+      fsq_id: '4c5af9572091a593d5b160d0',
+      categories: [Array],
+      chains: [],
+      closed_bucket: 'VeryLikelyOpen',
+      distance: 4872,
+      geocodes: [Object],
+      link: '/v3/places/4c5af9572091a593d5b160d0',
+      location: [Object],
+      name: 'Mende Suya Spot',
+      related_places: {},
+      timezone: 'Africa/Lagos'
+    }
+  ]
