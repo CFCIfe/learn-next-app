@@ -1,5 +1,5 @@
 .container{
-    margin-bottom: 6rem;
+    margin-bottom: 1rem;
 }
 
 .title{
@@ -96,6 +96,7 @@ xl: min-width: 1280px; //extra large device
         line-height: 1.75rem;
         padding-left: 2.5rem;
         padding-right: 2.5rem;
+        z-index: 2;
     }
 }
 
