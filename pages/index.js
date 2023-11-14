@@ -23,7 +23,7 @@ export default function Home(props) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Eatery Connoisseur</title>
+        <title>Check Eateries</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -47,10 +47,10 @@ export default function Home(props) {
               {props.eateryStores.map((eateryStore) => {
                 return (
                   <Card
-                    key={eateryStore.fsq_id}
+                    key={eateryStore.id}
                     name={eateryStore.name}
                     image={eateryStore.imgUrl}
-                    href={`/eatery-stores/${eateryStore.fsq_id}`}
+                    href={`/eatery-stores/${eateryStore.id}`}
                     className={styles.card}
                   />
                 );

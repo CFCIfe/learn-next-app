@@ -6,23 +6,39 @@ import styles from "@/styles/eatery-stores.module.css";
 import Image from "next/image";
 import classNames from "classnames";
 
-export async function getStaticProps(staticProps) {
-  const params = staticProps.params;
+export async function getStaticProps(context) {
+  const params = context.params;
+  if (!params || !params.id) {
+    return {
+      notFound: true, // Return a 404 page
+    };
+  }
+
   const eateryStores = await fetchEateryStores();
+
+  // Find the eateriesStore based on the provided ID
+  const eateriesStore = eateryStores.find((store) => store.id === params.id);
+
+  // Check if eateriesStore is not found
+  if (!eateriesStore) {
+    return {
+      notFound: true, // Return a 404 page
+    };
+  }
+
   return {
     props: {
-      eateriesStore: eateryStores.find((eateriesStore) => {
-        return eateriesStore.fsq_id.toString() === params.id;
-      }),
+      eateriesStore,
     },
   };
 }
 
 export async function getStaticPaths() {
   const eateryStores = await fetchEateryStores();
+  console.log("eateryStores", typeof eateryStores[0].id);
   const paths = eateryStores.map((eateriesStore) => {
     return {
-      params: { id: eateriesStore.fsq_id.toString() },
+      params: { id: eateriesStore.id },
     };
   });
   return {
@@ -41,8 +57,9 @@ const EateryStore = (props) => {
   const handleUpvoteButton = () => {
     console.log("Upvote button clicked");
   };
+  console.log("Props.eateriesStore", props.eateriesStore);
 
-  const { location, name, imgUrl } = props.eateriesStore;
+  const { address, neighborhood, name, imgUrl } = props.eateriesStore;
 
   return (
     <div className={styles.layout}>
@@ -53,7 +70,7 @@ const EateryStore = (props) => {
         <div className={styles.col1}>
           <div className={styles.backToHomeLink}>
             <Link href="/" className={styles.link}>
-              Back to home
+              ← Back to home
             </Link>
           </div>
           <div className={styles.nameWrapper}>
@@ -68,16 +85,18 @@ const EateryStore = (props) => {
           />
         </div>
         <div className={classNames("glass", styles.col2)}>
-          <div className={styles.iconWrapper}>
-            <Image
-              src="/static/icons/places.svg"
-              width="24"
-              height="24"
-              alt="Icons"
-            />
-            <p className={styles.text}>{location.formatted_address}</p>
-          </div>
-          {location.cross_street && (
+          {address && (
+            <div className={styles.iconWrapper}>
+              <Image
+                src="/static/icons/places.svg"
+                width="24"
+                height="24"
+                alt="Icons"
+              />
+              <p className={styles.text}>{address}</p>
+            </div>
+          )}
+          {neighborhood && (
             <div className={styles.iconWrapper}>
               <Image
                 src="/static/icons/nearMe.svg"
@@ -85,7 +104,7 @@ const EateryStore = (props) => {
                 height="24"
                 alt="Icons"
               />
-              <p className={styles.text}>{location.cross_street}</p>
+              <p className={styles.text}>{neighborhood}</p>
             </div>
           )}
           <div className={styles.iconWrapper}>
