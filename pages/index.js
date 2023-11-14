@@ -4,30 +4,14 @@ import Image from "next/image";
 import styles from "@/styles/home.module.css";
 import Banner from "@/components/banner";
 import Card from "@/components/card";
-
-import eateriesStoresData from "../data/eatery-stores.json";
+import { fetchEateryStores } from "@/lib/eatery-stores";
 
 export async function getStaticProps(context) {
-  let eateryStore = [];
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: "fsq3G9daS2FsnTBVjq5QhuufnW1npkh7wyklAR/rAS+9cB8=",
-    },
-  };
-
-  const response = await fetch(
-    "https://api.foursquare.com/v3/places/search?query=Restaurants&ll=6.595770%2C3.337080",
-    options
-  );
-
-  const data = response.json();
-  console.log(data);
+  const eateryStores = await fetchEateryStores();
 
   return {
     props: {
-      eateriesStores: eateryStoreData,
+      eateryStores,
     },
   };
 }
@@ -56,17 +40,17 @@ export default function Home(props) {
             height={400}
           />
         </div>
-        {props.eateriesStores.length > 0 && (
+        {props.eateryStores.length > 0 && (
           <>
             <h2 className={styles.heading2}>Ikeja Restaurants</h2>
             <div className={styles.cardLayout}>
-              {props.eateriesStores.map((eateriesStore) => {
+              {props.eateryStores.map((eateryStore) => {
                 return (
                   <Card
-                    key={eateriesStore.id}
-                    name={eateriesStore.name}
-                    image={eateriesStore.imgUrl}
-                    href={`/eatery-stores/${eateriesStore.id}`}
+                    key={eateryStore.fsq_id}
+                    name={eateryStore.name}
+                    // image={eateryStore.icon.prefix + eateryStore.icon.suffix}
+                    href={`/eatery-stores/${eateryStore.id}`}
                     className={styles.card}
                   />
                 );
