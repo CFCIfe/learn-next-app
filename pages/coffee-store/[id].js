@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import coffeeStoresData from "../../data/coffee-stores.json";
+import eateriesStoresData from "../../data/eatery-stores.json";
 import Head from "next/head";
-import styles from "@/styles/coffee-store.module.css";
+import styles from "@/styles/eatery-stores.module.css";
 import Image from "next/image";
 import classNames from "classnames";
 
@@ -10,17 +10,17 @@ export function getStaticProps(staticProps) {
   const params = staticProps.params;
   return {
     props: {
-      coffeeStore: coffeeStoresData.find((coffeeStore) => {
-        return coffeeStore.id.toString() === params.id;
+      eateriesStore: eateriesStoresData.find((eateriesStore) => {
+        return eateriesStore.id.toString() === params.id;
       }),
     },
   };
 }
 
 export function getStaticPaths() {
-  const paths = coffeeStoresData.map((coffeeStore) => {
+  const paths = eateriesStoresData.map((eateriesStore) => {
     return {
-      params: { id: coffeeStore.id.toString() },
+      params: { id: eateriesStore.id.toString() },
     };
   });
   return {
@@ -29,7 +29,7 @@ export function getStaticPaths() {
   };
 }
 
-const CoffeeStore = (props) => {
+const EateryStore = (props) => {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -40,7 +40,7 @@ const CoffeeStore = (props) => {
     console.log("Upvote button clicked");
   };
 
-  const { address, name, neighbourhood, imgUrl } = props.coffeeStore;
+  const { address, name, neighbourhood, imgUrl } = props.eateriesStore;
 
   return (
     <div className={styles.layout}>
@@ -59,7 +59,7 @@ const CoffeeStore = (props) => {
           </div>
           <Image
             src={imgUrl}
-            alt="coffee picture"
+            alt="eateries picture"
             width={550}
             height={600}
             className={styles.storeImg}
@@ -103,4 +103,4 @@ const CoffeeStore = (props) => {
   );
 };
 
-export default CoffeeStore;
+export default EateryStore;

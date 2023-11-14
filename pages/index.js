@@ -5,12 +5,29 @@ import styles from "@/styles/home.module.css";
 import Banner from "@/components/banner";
 import Card from "@/components/card";
 
-import coffeeStoresData from "../data/coffee-stores.json";
+import eateriesStoresData from "../data/eatery-stores.json";
 
 export async function getStaticProps(context) {
+  let eateryStore = [];
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: "fsq3G9daS2FsnTBVjq5QhuufnW1npkh7wyklAR/rAS+9cB8=",
+    },
+  };
+
+  const response = await fetch(
+    "https://api.foursquare.com/v3/places/search?query=Restaurants&ll=6.595770%2C3.337080",
+    options
+  );
+
+  const data = response.json();
+  console.log(data);
+
   return {
     props: {
-      coffeeStores: coffeeStoresData,
+      eateriesStores: eateryStoreData,
     },
   };
 }
@@ -22,7 +39,7 @@ export default function Home(props) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Coffee Connoisseur</title>
+        <title>Eatery Connoisseur</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -39,17 +56,17 @@ export default function Home(props) {
             height={400}
           />
         </div>
-        {props.coffeeStores.length > 0 && (
+        {props.eateriesStores.length > 0 && (
           <>
-            <h2 className={styles.heading2}>Toronto Stores</h2>
+            <h2 className={styles.heading2}>Ikeja Restaurants</h2>
             <div className={styles.cardLayout}>
-              {props.coffeeStores.map((coffeeStore) => {
+              {props.eateriesStores.map((eateriesStore) => {
                 return (
                   <Card
-                    key={coffeeStore.id}
-                    name={coffeeStore.name}
-                    image={coffeeStore.imgUrl}
-                    href={`/coffee-store/${coffeeStore.id}`}
+                    key={eateriesStore.id}
+                    name={eateriesStore.name}
+                    image={eateriesStore.imgUrl}
+                    href={`/eatery-stores/${eateriesStore.id}`}
                     className={styles.card}
                   />
                 );

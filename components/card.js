@@ -13,7 +13,7 @@ const Card = (props) => {
         </div>
         <div className={styles.cardImageWrapper}>
           <Image
-            alt="coffee-store-image"
+            alt="eatery-stores-image"
             className={styles.cardImage}
             src={props.image}
             width={260}
