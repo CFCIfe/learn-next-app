@@ -35,7 +35,6 @@ export async function getStaticProps(context) {
 
 export async function getStaticPaths() {
   const eateryStores = await fetchEateryStores();
-  console.log("eateryStores", typeof eateryStores[0].id);
   const paths = eateryStores.map((eateriesStore) => {
     return {
       params: { id: eateriesStore.id },
@@ -57,7 +56,6 @@ const EateryStore = (props) => {
   const handleUpvoteButton = () => {
     console.log("Upvote button clicked");
   };
-  console.log("Props.eateriesStore", props.eateriesStore);
 
   const { address, neighborhood, name, imgUrl } = props.eateriesStore;
 
