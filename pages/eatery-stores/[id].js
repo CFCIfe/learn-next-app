@@ -1,43 +1,36 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { fetchEateryStores } from "@/lib/eatery-stores";
 import Head from "next/head";
-import styles from "@/styles/eatery-stores.module.css";
 import Image from "next/image";
+
 import classNames from "classnames";
+
+import { fetchEateryStores } from "@/lib/eatery-stores";
+import styles from "@/styles/eatery-stores.module.css";
 
 export async function getStaticProps(context) {
   const params = context.params;
-  if (!params || !params.id) {
-    return {
-      notFound: true, // Return a 404 page
-    };
-  }
+  console.log({ params });
 
   const eateryStores = await fetchEateryStores();
+  console.log({ eateryStores });
 
-  // Find the eateriesStore based on the provided ID
-  const eateriesStore = eateryStores.find((store) => store.id === params.id);
-
-  // Check if eateriesStore is not found
-  if (!eateriesStore) {
-    return {
-      notFound: true, // Return a 404 page
-    };
-  }
+  const findEateryStoreById = eateryStores.find((store) => {
+    return store.id === params.id;
+  });
 
   return {
     props: {
-      eateriesStore,
+      eateryStore: findEateryStoreById ? findEateryStoreById : {},
     },
   };
 }
 
 export async function getStaticPaths() {
   const eateryStores = await fetchEateryStores();
-  const paths = eateryStores.map((eateriesStore) => {
+  const paths = eateryStores.map((eateryStore) => {
     return {
-      params: { id: eateriesStore.id },
+      params: { id: eateryStore.id },
     };
   });
   return {
@@ -57,7 +50,7 @@ const EateryStore = (props) => {
     console.log("Upvote button clicked");
   };
 
-  const { address, neighborhood, name, imgUrl } = props.eateriesStore;
+  const { address, neighborhood, name, imgUrl } = props.eateryStore;
 
   return (
     <div className={styles.layout}>

@@ -9,7 +9,7 @@ const useTrackLocation = () => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
 
-    setlatlong(`${latitude},${longitude}`);
+    setlatlong(`${latitude}%2C${longitude}`);
     setLocationErrorMsg("");
     setIsFindingLocation(false);
   };
@@ -27,6 +27,8 @@ const useTrackLocation = () => {
       navigator.geolocation.getCurrentPosition(success, error);
     }
   };
+
+  console.log({ latlong });
 
   return { latlong, handleTrackLocation, locationErrorMsg, isFindingLocation };
 };
