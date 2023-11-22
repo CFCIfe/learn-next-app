@@ -8,7 +8,7 @@ import { fetchEateryStores } from "@/lib/eatery-stores";
 
 import useTrackLocation from "@/hooks/use-track-location";
 import { useEffect, useState, useContext } from "react";
-import { ACTION_TYPES, StoreContext } from "./_app";
+import { ACTION_TYPES, StoreContext } from "@/store/store-context";
 
 export async function getStaticProps(context) {
   const eateryStores = await fetchEateryStores();

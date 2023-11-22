@@ -8,6 +8,12 @@ import classNames from "classnames";
 import { fetchEateryStores } from "@/lib/eatery-stores";
 import styles from "@/styles/eatery-stores.module.css";
 
+import { useContext, useState, useEffect } from "react";
+
+import { StoreContext } from "@/store/store-context";
+
+import { isEmpty } from "@/utils";
+
 export async function getStaticProps(context) {
   const params = context.params;
   console.log({ params });
@@ -39,18 +45,37 @@ export async function getStaticPaths() {
   };
 }
 
-const EateryStore = (props) => {
+const EateryStore = (initialProps) => {
   const router = useRouter();
 
+  const id = router.query.id;
+
+  const [eateryStore, setEateryStore] = useState(initialProps.eateryStore);
+
+  const {
+    state: { eateryStores },
+  } = useContext(StoreContext);
+
+  useEffect(() => {
+    if (isEmpty(initialProps.eateryStore)) {
+      if (eateryStores.length > 0) {
+        const findEateryStoreById = eateryStores.find((eateryStore) => {
+          return eateryStore.id.toString() === id;
+        });
+        setEateryStore(findEateryStoreById);
+      }
+    }
+  }, [id, eateryStores, initialProps.eateryStore]);
+
   if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
+     return <div>Loading...</div>;
+   }
+
+  const { address, neighborhood, name, imgUrl } = eateryStore;
 
   const handleUpvoteButton = () => {
     console.log("Upvote button clicked");
   };
-
-  const { address, neighborhood, name, imgUrl } = props.eateryStore;
 
   return (
     <div className={styles.layout}>
