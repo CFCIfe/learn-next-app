@@ -30,15 +30,19 @@ export default function Home(props) {
   useEffect(() => {
     async function setEateryStoresByLocation() {
       try {
-        const fetchedEateryStores = await fetchEateryStores(latlong, 10);
-        console.log({ fetchedEateryStores });
-        // setEateryStores(fetchedEateryStores);
+        const res = await fetch(
+          `/api/getEateryStoresByLocation?latlong=${latlong}&limit=10`
+        );
+
+        const eateryStores = await res.json();
+
         dispatch({
           type: ACTION_TYPES.SET_EATERY_STORES,
           payload: {
-            eateryStores: fetchedEateryStores,
+            eateryStores,
           },
         });
+        setEateryStoresError("");
       } catch (error) {
         console.log({ error });
         setEateryStoresError(error.message);
