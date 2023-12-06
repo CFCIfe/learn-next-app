@@ -1,15 +1,53 @@
-import Airtable from "airtable";
+import { table, getMinifiedRecords } from "@/lib/airtable";
 
-const base = new Airtable({
-  apiKey: process.env.airtable_api_key,
-}).base(process.env.airtable_base_id);
+const createEateryStore = async (req, res) => {
+  if (req.method === "POST") {
+    const { id, name, address, neighbourhood, voting, imgUrl } = req.body;
+    try {
+      if (id) {
+        const findRecords = await table
+          .select({
+            filterByFormula: `id="${id}"`,
+          })
+          .firstPage();
 
-const table = base("eatery-stores");
+        if (findRecords.length !== 0) {
+          const listRecords = getMinifiedRecords(findRecords);
 
-console.log({ table });
+          res.json({ listRecords });
+        } else {
+          if (name) {
+            const createRecords = await table.create([
+              {
+                fields: {
+                  id,
+                  name,
+                  address,
+                  neighbourhood,
+                  voting,
+                  imgUrl,
+                },
+              },
+            ]);
 
-const createEateryStore = (req, res) => {
-  res.json({ message: "hi there!" });
+            const records = getMinifiedRecords(createRecords);
+
+            res.json({ records });
+          } else {
+            res.status(422);
+            res.json({ message: "Id or Name is required." });
+          }
+        }
+      } else {
+        res.status(422);
+        res.json({ message: "ID is required" });
+      }
+    } catch (err) {
+      console.error("Error creating or finding a Store", err);
+      res.status(500);
+      res.json({ message: "Error creating or finding a Store", err });
+    }
+  }
 };
 
 export default createEateryStore;
