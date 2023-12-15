@@ -1,20 +1,13 @@
-import { table, getMinifiedRecords } from "@/lib/airtable";
+import { table, getMinifiedRecords, findRecordsByFilter } from "@/lib/airtable";
 
 const createEateryStore = async (req, res) => {
   if (req.method === "POST") {
     const { id, name, address, neighbourhood, voting, imgUrl } = req.body;
     try {
       if (id) {
-        const findRecords = await table
-          .select({
-            filterByFormula: `id="${id}"`,
-          })
-          .firstPage();
-
-        if (findRecords.length !== 0) {
-          const listRecords = getMinifiedRecords(findRecords);
-
-          res.json({ listRecords });
+        const records = await findRecordsByFilter(id);
+        if (records.length !== 0) {
+          res.json({ records });
         } else {
           if (name) {
             const createRecords = await table.create([
@@ -31,7 +24,6 @@ const createEateryStore = async (req, res) => {
             ]);
 
             const records = getMinifiedRecords(createRecords);
-
             res.json({ records });
           } else {
             res.status(422);
@@ -49,5 +41,4 @@ const createEateryStore = async (req, res) => {
     }
   }
 };
-
 export default createEateryStore;

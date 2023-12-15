@@ -16,10 +16,8 @@ import { isEmpty } from "@/utils";
 
 export async function getStaticProps(context) {
   const params = context.params;
-  console.log({ params });
 
   const eateryStores = await fetchEateryStores();
-  console.log({ eateryStores });
 
   const findEateryStoreById = eateryStores.find((store) => {
     return store.id === params.id;
@@ -56,25 +54,60 @@ const EateryStore = (initialProps) => {
     state: { eateryStores },
   } = useContext(StoreContext);
 
+  const handleCreateEateryStore = async (eateryStore) => {
+    try {
+      const { id, name, voting, imgUrl, neighborhood, address } = eateryStore;
+      const response = await fetch("/api/createEateryStore", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+          name,
+          voting: 0,
+          imgUrl,
+          neighborhood: neighborhood || "",
+          address: address || "",
+        }),
+      });
+
+      const dbEateryStore = await response.json();
+      console.log({ dbEateryStore });
+    } catch (error) {
+      console.log("Error creating eatery store", error);
+    }
+  };
+
   useEffect(() => {
     if (isEmpty(initialProps.eateryStore)) {
       if (eateryStores.length > 0) {
-        const findEateryStoreById = eateryStores.find((eateryStore) => {
+        const eateryStoreFromContext = eateryStores.find((eateryStore) => {
           return eateryStore.id.toString() === id;
         });
-        setEateryStore(findEateryStoreById);
+        if (eateryStoreFromContext) {
+          setEateryStore(eateryStoreFromContext);
+          handleCreateEateryStore(eateryStoreFromContext);
+        }
       }
+    } else {
+      // SSG
+      handleCreateEateryStore(initialProps.eateryStore);
     }
   }, [id, eateryStores, initialProps.eateryStore]);
 
   if (router.isFallback) {
-     return <div>Loading...</div>;
-   }
+    return <div>Loading...</div>;
+  }
 
   const { address, neighborhood, name, imgUrl } = eateryStore;
 
+  const [votingCount, setVotingCount] = useState(1);
+
   const handleUpvoteButton = () => {
     console.log("Upvote button clicked");
+    let count = votingCount + 1;
+    setVotingCount(count);
   };
 
   return (
@@ -130,7 +163,7 @@ const EateryStore = (initialProps) => {
               height="24"
               alt="Icons"
             />
-            <p className={styles.text}>10</p>
+            <p className={styles.text}>{votingCount}</p>
           </div>
 
           <button className={styles.upvoteButton} onClick={handleUpvoteButton}>
