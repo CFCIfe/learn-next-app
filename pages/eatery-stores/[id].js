@@ -102,16 +102,17 @@ const EateryStore = (initialProps) => {
     }
   }, [id, initialProps.eateryStore, eateryStores]);
 
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
-
   useEffect(() => {
     if (data && data.length > 0) {
       setEateryStore(data[0]);
       setVotingCount(data[0].voting);
     }
   }, [data]);
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
 
   const { address, neighborhood, name, imgUrl } = eateryStore;
 
