@@ -113,7 +113,6 @@ const EateryStore = (initialProps) => {
     return <div>Loading...</div>;
   }
 
-
   const { address, neighborhood, name, imgUrl } = eateryStore;
 
   const handleUpvoteButton = async () => {
