@@ -44,7 +44,7 @@ export default function Home(props) {
         });
         setEateryStoresError("");
       } catch (error) {
-        console.log({ error });
+        console.error({ error });
         setEateryStoresError(error.message);
       }
     }
@@ -53,7 +53,6 @@ export default function Home(props) {
 
   const handleOnBannerBtnClick = () => {
     handleTrackLocation();
-    console.log("button clicked");
   };
 
   return (

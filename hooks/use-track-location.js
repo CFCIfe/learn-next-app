@@ -3,7 +3,6 @@ import { ACTION_TYPES, StoreContext } from "@/store/store-context";
 
 const useTrackLocation = () => {
   const [locationErrorMsg, setLocationErrorMsg] = useState("");
-  // const [latlong, setlatlong] = useState("");
   const [isFindingLocation, setIsFindingLocation] = useState(false);
 
   const { dispatch } = useContext(StoreContext);
@@ -11,8 +10,6 @@ const useTrackLocation = () => {
   const success = (position) => {
     const latitude = position.coords.latitude;
     const longitude = position.coords.longitude;
-
-    // setlatlong(`${latitude}%2C${longitude}`);
     dispatch({
       type: ACTION_TYPES.SET_LAT_LONG,
       payload: {
@@ -36,11 +33,7 @@ const useTrackLocation = () => {
       navigator.geolocation.getCurrentPosition(success, error);
     }
   };
-
-  // console.log({ latlong });
-
   return {
-    //latlong,
     handleTrackLocation,
     locationErrorMsg,
     isFindingLocation,

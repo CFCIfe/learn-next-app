@@ -1,4 +1,4 @@
-import { table, getMinifiedRecords, findRecordsByFilter } from "@/lib/airtable";
+import { findRecordsByFilter } from "@/lib/airtable";
 
 const getEateryStoreById = async (req, res) => {
   const { id } = req.query;
@@ -8,7 +8,7 @@ const getEateryStoreById = async (req, res) => {
       const records = await findRecordsByFilter(id);
 
       if (records.length !== 0) {
-        res.json({ records });
+        res.json(records);
       } else {
         res.json({ message: "No records found" });
       }

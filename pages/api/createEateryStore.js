@@ -7,7 +7,7 @@ const createEateryStore = async (req, res) => {
       if (id) {
         const records = await findRecordsByFilter(id);
         if (records.length !== 0) {
-          res.json({ records });
+          res.json(records);
         } else {
           if (name) {
             const createRecords = await table.create([
@@ -24,7 +24,7 @@ const createEateryStore = async (req, res) => {
             ]);
 
             const records = getMinifiedRecords(createRecords);
-            res.json({ records });
+            res.json(records);
           } else {
             res.status(422);
             res.json({ message: "Id or Name is required." });

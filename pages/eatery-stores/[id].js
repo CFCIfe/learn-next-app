@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import Image from "next/image";
 
+import useSWR from "swr";
+
 import classNames from "classnames";
 
 import { fetchEateryStores } from "@/lib/eatery-stores";
@@ -50,6 +52,12 @@ const EateryStore = (initialProps) => {
 
   const [eateryStore, setEateryStore] = useState(initialProps.eateryStore);
 
+  const [votingCount, setVotingCount] = useState(0);
+
+  const fetcher = (url) => fetch(url).then((r) => r.json());
+
+  const { data, error } = useSWR(`/api/getEateryStoreById?id=${id}`, fetcher);
+
   const {
     state: { eateryStores },
   } = useContext(StoreContext);
@@ -73,9 +81,9 @@ const EateryStore = (initialProps) => {
       });
 
       const dbEateryStore = await response.json();
-      console.log({ dbEateryStore });
+      // console.log({ dbEateryStore });
     } catch (error) {
-      console.log("Error creating eatery store", error);
+      console.error("Error creating eatery store", error);
     }
   };
 
@@ -85,30 +93,54 @@ const EateryStore = (initialProps) => {
         const eateryStoreFromContext = eateryStores.find((eateryStore) => {
           return eateryStore.id.toString() === id;
         });
-        if (eateryStoreFromContext) {
-          setEateryStore(eateryStoreFromContext);
-          handleCreateEateryStore(eateryStoreFromContext);
-        }
+        setEateryStore(eateryStoreFromContext);
+        handleCreateEateryStore(eateryStoreFromContext);
       }
     } else {
       // SSG
       handleCreateEateryStore(initialProps.eateryStore);
     }
-  }, [id, eateryStores, initialProps.eateryStore]);
+  }, [id, initialProps.eateryStore, eateryStores]);
 
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
 
+  useEffect(() => {
+    if (data && data.length > 0) {
+      setEateryStore(data[0]);
+      setVotingCount(data[0].voting);
+    }
+  }, [data]);
+
   const { address, neighborhood, name, imgUrl } = eateryStore;
 
-  const [votingCount, setVotingCount] = useState(1);
+  const handleUpvoteButton = async () => {
+    try {
+      const response = await fetch("/api/updateEateryStoreById", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+        }),
+      });
 
-  const handleUpvoteButton = () => {
-    console.log("Upvote button clicked");
-    let count = votingCount + 1;
-    setVotingCount(count);
+      const dbEateryStore = await response.json();
+
+      if (dbEateryStore && dbEateryStore.length > 0) {
+        let count = votingCount + 1;
+        setVotingCount(count);
+      }
+    } catch (error) {
+      console.error("Error voting for eatery store", error);
+    }
   };
+
+  if (error) {
+    return <div>Failed to load Eatery Store Page</div>;
+  }
 
   return (
     <div className={styles.layout}>
